@@ -1,5 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#6B656E</color>
+    <color name="spruceGreen">#4F7959</color>
+    <color name="Brown">#7B5343</color>
+    <color name="lightBlue">#96B5B8</color>
+    <color name="earthyGreen">#8F9E8B</color>
+    <color name="gold">#C7A961</color>
+    <color name="soil">#9C937A</color>
+    <color name="coal">#42473F</color>
+
+
 </resources>

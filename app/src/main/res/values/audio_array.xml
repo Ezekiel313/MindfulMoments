@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="Audio">
+        <item>"Deep meditation"</item>
+        <item>"Thunderstorm"</item>
+        <item>"relaxing birds and piano"</item>
+        <item>"spring breeze of meditation"</item>
+        <item>"Silent meditation"</item>
+    </string-array>
+
 </resources>
