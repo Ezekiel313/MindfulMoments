@@ -20,6 +20,8 @@
         android:text="@string/play"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:onClick="PlaybuttonPressed"
         />
 
@@ -42,6 +44,18 @@
         android:id="@+id/timeSelector"
         android:spinnerMode="dropdown"
         app:layout_constraintTop_toBottomOf="@+id/selectAudio"/>
+    <ProgressBar
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:id="@+id/ProgressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/playButton"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
