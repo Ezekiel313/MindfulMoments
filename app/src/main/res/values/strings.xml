@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Mindful Moments</string>
+
+    <string name="Hello">"Hello and welcome! How can we help you today?"</string>
+    <string name="Meditation_Button">"Meditation"</string>
+    <string name="Affirmation_Button">"Affirmation"</string>
+    <string name="Silent_Mediation_button">"Silent Mediation"</string>
+    <string name="Sleep_meditation_Button">"Sleep meditation"</string>
+    <string name="play">"Play"</string>
+    <string name="pause">"Pause"</string>
+    <string name="Audio_selection">"Please select an audio file or silence"</string>
 </resources>

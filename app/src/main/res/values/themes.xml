@@ -5,5 +5,14 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+
+    <!-- res/values/styles.xml -->
+    <style name="GrayButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/gray_button_background</item>
+        <item name="android:textColor">@color/black</item>
+        <!-- Add other button style attributes here if needed -->
+    </style>
+
+
     <style name="Theme.MindfulMoments" parent="Base.Theme.MindfulMoments" />
 </resources>

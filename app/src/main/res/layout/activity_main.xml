@@ -5,15 +5,79 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/coal"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/Hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/Hello"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/MeditationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/spruceGreen"
+        android:text="@string/Meditation_Button"
+        android:onClick="MeditationButtonPressed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Hello" />
+    <Button
+        android:id="@+id/AffirmationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20sp"
+        android:backgroundTint="@color/gray"
+        android:textColor="@color/black"
+        android:text="@string/Affirmation_Button"
+
+        android:onClick="AffirmationButtonPressed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MeditationButton" />
+    <Button
+        android:id="@+id/SilentMeditationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="10sp"
+        android:textColor="@color/black"
+        android:text="@string/Silent_Mediation_button"
+        android:backgroundTint="@color/soil"
+        android:onClick="SilentMeditationButtonPressed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AffirmationButton" />
+
+    <Button
+        android:id="@+id/SleepMeditation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20sp"
+        android:textColor="@color/black"
+        android:text="@string/Sleep_meditation_Button"
+        android:backgroundTint="@color/earthyGreen"
+        android:onClick="SleepMeditationButtonPressed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SilentMeditationButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
