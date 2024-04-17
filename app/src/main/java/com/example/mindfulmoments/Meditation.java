@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,7 +39,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
     int countdown;
     int audio;
     int audioDuration;
-    private boolean isPaused = false;
+    private boolean isPaused = true;
 
     String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "Silence"};
 
@@ -92,7 +93,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void toggleMeditationState() {
-        if (isMeditationPlaying) {
+        if (!isMeditationPlaying) {
             pauseMeditation();
         } else {
             int time = (countdown != 0) ? countdown : default_countdown;
@@ -103,18 +104,46 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
     private void pauseMeditation() {
         // Change text to "Play"
         updateButtonText();
-        mediaPlayer.stop();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
         // Perform other actions to pause the meditation session
+        if (timer != null) {
+            int time = resumeTimer(countdown, default_countdown, elapsedTime);
+            timer.purge();
+        }
     }
 
     private void startMeditation(int audio, int time) {
         // Change text to "Pause"
         isMeditationPlaying = true;
 
+        // Release any existing MediaPlayer instance
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+
         if (audio != 0) {
             mediaPlayer = MediaPlayer.create(this, audio);
             mediaPlayer.setLooping(true);
             mediaPlayer.start(); // Start playing the audio
+
+            // Initialize a Handler to update the UI with elapsed time
+            Handler handler = new Handler();
+            Runnable updateRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (isMeditationPlaying) {
+                        long elapsedTime = mediaPlayer.getCurrentPosition(); // Get current playback position
+                        // Update UI with elapsed time if needed
+
+                        // Schedule this Runnable to run again after a short delay
+                        handler.postDelayed(this, 1000); // Update every second
+                    }
+                }
+            };
+            // Start the initial update immediately
+            handler.post(updateRunnable);
 
             // Schedule a Timer task to stop the audio after the specified duration
             timer.schedule(new TimerTask() {
@@ -128,6 +157,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         }
         updateButtonText();
     }
+
 
 
     public void updateButtonText() {
@@ -145,6 +175,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         if (isMeditationPlaying) {
             startMeditation(audio, time);
         }
+
         toggleMeditationState();
         updateButtonText();
     }
@@ -155,6 +186,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         }
         // Create new MediaPlayer instance and start playing the audio file
         mediaPlayer = MediaPlayer.create(this, audio);
+
         mediaPlayer.start();
     }
     private int resumeTimer(int countdown, int default_countdown, int elapsedTime) {
