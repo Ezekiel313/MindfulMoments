@@ -38,10 +38,6 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
     private int elapsedTime = 0;
     int countdown;
     int audio;
-    int audioDuration;
-    private boolean isPaused = true;
-
-    String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "Silence"};
 
 
     @Override
@@ -58,7 +54,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner timeSelector = findViewById(R.id.timeSelector);
         timeSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] times = new String[]{"5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"};
+        String[] times = new String[]{"1 min", "2 min", "3 min","4min","5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, times);
@@ -68,7 +64,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner audioSelector = findViewById(R.id.selectAudio);
         audioSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "Silence"};
+        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> audioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, audioOptions);
@@ -136,6 +132,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
                     if (isMeditationPlaying) {
                         long elapsedTime = mediaPlayer.getCurrentPosition(); // Get current playback position
                         // Update UI with elapsed time if needed
+                        updateProgressBar(elapsedTime, mediaPlayer.getDuration());
 
                         // Schedule this Runnable to run again after a short delay
                         handler.postDelayed(this, 1000); // Update every second
@@ -158,8 +155,6 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         updateButtonText();
     }
 
-
-
     public void updateButtonText() {
         if (isMeditationPlaying) {
 
@@ -179,16 +174,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         toggleMeditationState();
         updateButtonText();
     }
-    private void playAudio(int audio) {
-        // Release previous MediaPlayer instance if it exists
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-        }
-        // Create new MediaPlayer instance and start playing the audio file
-        mediaPlayer = MediaPlayer.create(this, audio);
 
-        mediaPlayer.start();
-    }
     private int resumeTimer(int countdown, int default_countdown, int elapsedTime) {
         int time = (countdown != 0) ? countdown : default_countdown;
         time -= elapsedTime;
@@ -230,9 +216,17 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             return 0;
         }
     }
-    //{"5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"}
+    //{"1 min", "2 min", "3 min", "4min","5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"}
     private int convertToTime(String selectedItem) {
-        if(Objects.equals(selectedItem, "5 min")) {
+        if (Objects.equals(selectedItem, "1 min")) {
+            return 60000;
+        }else if(Objects.equals(selectedItem, "2 min")) {
+            return 120000;
+        }else if(Objects.equals(selectedItem, "3 min")) {
+            return 180000;
+        }else if(Objects.equals(selectedItem, "4 min")) {
+            return 240000;
+        }else if(Objects.equals(selectedItem, "5 min")) {
             return 300000;
         } else if (Objects.equals(selectedItem, "10 min")) {
             return 600000;
@@ -252,26 +246,16 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             return 0;
         }
     }
-    // Method to pause the timer and audio playback
-    private void pauseTimerAndAudio() {
-        isPaused = true;
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-        }
+    private void updateProgressBar(long elapsedTime, long totalTime) {
+        // Calculate the progress percentage
+        int progress = (int) ((float) elapsedTime / totalTime * 100);
+
+        // Update the ProgressBar
+        progressBar.setProgress(progress);
     }
 
-    // Method to resume the timer and audio playback
-    /*private void resumeTimerAndAudio(int elapsedTime, int time) {
-        isPaused = false;
-        startTimer(); // Resume the timer
-        if (mediaPlayer != null) {
-            mediaPlayer.start(); // Resume audio playback
-        }
-    }*/
+
+
 }
 
 
