@@ -54,7 +54,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner timeSelector = findViewById(R.id.timeSelector);
         timeSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] times = new String[]{"5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"};
+        String[] times = new String[]{"1 min", "2 min", "3 min","4min","5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, times);
@@ -64,7 +64,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner audioSelector = findViewById(R.id.selectAudio);
         audioSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "Silence"};
+        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> audioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, audioOptions);
@@ -216,9 +216,17 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             return 0;
         }
     }
-    //{"5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"}
+    //{"1 min", "2 min", "3 min", "4min","5 min", "10 min", "15 min", "20 min", "25 min","30 min", "45min", "1 hr"}
     private int convertToTime(String selectedItem) {
-        if(Objects.equals(selectedItem, "5 min")) {
+        if (Objects.equals(selectedItem, "1 min")) {
+            return 60000;
+        }else if(Objects.equals(selectedItem, "2 min")) {
+            return 120000;
+        }else if(Objects.equals(selectedItem, "3 min")) {
+            return 180000;
+        }else if(Objects.equals(selectedItem, "4 min")) {
+            return 240000;
+        }else if(Objects.equals(selectedItem, "5 min")) {
             return 300000;
         } else if (Objects.equals(selectedItem, "10 min")) {
             return 600000;
