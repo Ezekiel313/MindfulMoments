@@ -9,4 +9,17 @@
     <string name="play">"Play"</string>
     <string name="pause">"Stop"</string>
     <string name="Audio_selection">"Please select an audio file or silence"</string>
+
+    <!-- affirmations string array-->
+    <string-array name="affirmationStrings">
+        <item>You can get through the difficult times</item>
+        <item>You are doing your best</item>
+        <item>I am grateful for the opportunities I have today</item>
+        <item>You are loved</item>
+        <item>The world is brighter with your smile</item>
+        <item>You are capable of overcoming anything</item>
+        <item>You are deserving</item>
+        <item>Be proud of yourself</item>
+        <item>Strive to be the best version of you</item>
+    </string-array>
 </resources>
