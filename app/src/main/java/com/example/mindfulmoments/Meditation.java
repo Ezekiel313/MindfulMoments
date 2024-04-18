@@ -278,26 +278,43 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         // Update the ProgressBar
         progressBar.setProgress(progress);
     }
+    private boolean hasCompleted = false;
+
     private void playCompletionSound() {
         MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
         completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                mp.release(); // Release the MediaPlayer resources when the sound is completed
-                mp = null;
+                if (!hasCompleted) {
+                    hasCompleted = true;
+                    mp.release(); // Release the MediaPlayer resources when the sound is completed
+                }
             }
         });
         completionMediaPlayer.start(); // Start playing the completion sound
 
-        // Delay the sound effect by 1.5 seconds
+        // Delay the sound effect by 6.5 seconds
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                completionMediaPlayer.start(); // Play the sound effect
+                // Check if the completion listener has already been triggered
+                if (!hasCompleted) {
+                    // Create a new MediaPlayer instance for the delayed sound effect
+                    MediaPlayer delayedMediaPlayer = MediaPlayer.create(Meditation.this, R.raw.meditation_complete);
+                    delayedMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release(); // Release the MediaPlayer resources when the sound is completed
+                        }
+                    });
+                    delayedMediaPlayer.start(); // Play the delayed sound effect
+                }
             }
-        }, 6500); // Delay for 6.5 sec so sound effect isn't jarring
+        }, 1500); // Delay for 1.5 sec
     }
+
+
 
 
 
