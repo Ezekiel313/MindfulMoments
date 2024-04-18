@@ -64,7 +64,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner audioSelector = findViewById(R.id.selectAudio);
         audioSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation"};
+        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern meditative"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> audioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, audioOptions);
@@ -111,8 +111,11 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void startMeditation(int audio, int time) {
-        // Change text to "Pause"
+        //reset progress bar
+        progressBar.setProgress(0);
+
         isMeditationPlaying = true;
+        final boolean[] isReleased = {false};
 
         // Release any existing MediaPlayer instance
         if (mediaPlayer != null) {
@@ -132,7 +135,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
                     if (isMeditationPlaying) {
                         long elapsedTime = mediaPlayer.getCurrentPosition(); // Get current playback position
                         // Update UI with elapsed time if needed
-                        updateProgressBar(elapsedTime, mediaPlayer.getDuration());
+                        updateProgressBar(elapsedTime, time);
 
                         // Schedule this Runnable to run again after a short delay
                         handler.postDelayed(this, 1000); // Update every second
@@ -142,18 +145,33 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             // Start the initial update immediately
             handler.post(updateRunnable);
 
+
             // Schedule a Timer task to stop the audio after the specified duration
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                    updateButtonText(); // Update the button text after stopping the audio
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mediaPlayer != null && !isReleased[0]) {
+                                mediaPlayer.pause();
+                                mediaPlayer.release();
+                                mediaPlayer = null;
+                                isReleased[0] = true;
+                                isMeditationPlaying = false;
+                            }
+                            updateButtonText(); // Update the button text after stopping the audio
+                            playCompletionSound();
+                        }
+                    });
                 }
             }, time);
+
+
+
         }
-        updateButtonText();
     }
+
 
     public void updateButtonText() {
         if (isMeditationPlaying) {
@@ -202,7 +220,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         // Handle case where no item is selected (optional)
     }
 
-    //{"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "Silence"}
+    //{"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern meditative"}
     private int convertToAudio(String selectedItem) {
         if(Objects.equals(selectedItem, "Deep meditation")) {
             return R.raw.deep_meditation;
@@ -212,7 +230,14 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             return R.raw.relaxing_birds_and_piano_music;
         } else if (Objects.equals(selectedItem, "Spring breeze of meditation")) {
             return R.raw.spring_breeze_of_meditation;
-        } else {
+        } else if (Objects.equals(selectedItem, "healing forest")) {
+            return R.raw.healing_forest;
+        }else if (Objects.equals(selectedItem, "garden serenity")) {
+            return R.raw.garden_serenity;
+        }else if (Objects.equals(selectedItem,  "eastern meditative")) {
+            return R.raw.eastern_meditative;
+        }
+        else {
             return 0;
         }
     }
@@ -252,6 +277,26 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
 
         // Update the ProgressBar
         progressBar.setProgress(progress);
+    }
+    private void playCompletionSound() {
+        MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
+        completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release(); // Release the MediaPlayer resources when the sound is completed
+                mp = null;
+            }
+        });
+        completionMediaPlayer.start(); // Start playing the completion sound
+
+        // Delay the sound effect by 1.5 seconds
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                completionMediaPlayer.start(); // Play the sound effect
+            }
+        }, 6500); // Delay for 6.5 sec so sound effect isn't jarring
     }
 
 
