@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
+    android:background="@drawable/meditation_background_flowers_and_trees"
+    android:backgroundTint="#D9000000"
+    android:backgroundTintMode="src_over"
     tools:context=".SleepMeditation">
 
 
@@ -17,6 +19,7 @@
     android:layout_marginStart="140sp"
     android:layout_marginEnd="140sp"
     android:backgroundTint="@color/Brown"
+        android:fontFamily="@font/cruinnblack"
     android:theme="@style/GrayButtonStyle"
     android:text="@string/play"
     android:textColor="@color/black"

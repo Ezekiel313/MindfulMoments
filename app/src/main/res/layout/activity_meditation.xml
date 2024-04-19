@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/earthyGreen"
+    android:background="@drawable/meditation_background_flowers_and_trees"
+    android:backgroundTint="#33FFFFFF"
+    android:backgroundTintMode="src_over"
     tools:context=".Meditation">
 
     <Button
@@ -17,6 +19,7 @@
         android:layout_marginEnd="140sp"
         android:backgroundTint="@color/spruceGreen"
         android:theme="@style/GrayButtonStyle"
+        android:fontFamily="@font/cruinnblack"
         android:text="@string/play"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
