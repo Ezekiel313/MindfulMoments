@@ -30,9 +30,9 @@ public class Affirmations extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.BLACK);
-        ConstraintLayout affir = findViewById(R.id.main)
+        ConstraintLayout main = findViewById(R.id.main)
 
-        int color = ((ColorDrawable) affir.getBackground()).getColor();
+        int color = ((ColorDrawable) main.getBackground()).getColor();
         toolbar.setBackgroundColor(color);// Set the title text color after setting support action bar
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
