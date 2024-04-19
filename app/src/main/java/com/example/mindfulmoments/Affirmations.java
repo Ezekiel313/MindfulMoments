@@ -1,7 +1,16 @@
 package com.example.mindfulmoments;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import android.widget.TextView;
 import android.os.Handler;
 
@@ -17,6 +26,16 @@ public class Affirmations extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affirmations);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
+        ConstraintLayout affir = findViewById(R.id.main)
+
+        int color = ((ColorDrawable) affir.getBackground()).getColor();
+        toolbar.setBackgroundColor(color);// Set the title text color after setting support action bar
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         affirmationsText = findViewById(R.id.affirmationsTextView);
         handler = new Handler();
