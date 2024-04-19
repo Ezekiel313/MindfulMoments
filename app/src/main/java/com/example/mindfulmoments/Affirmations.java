@@ -45,6 +45,16 @@ public class Affirmations extends AppCompatActivity {
         updateTextViewWithArray();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Navigate back to the previous screen
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /* This method allows for the string array to be used to update text view
     with the affirmations array.
      */
