@@ -5,6 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightBlue"
     tools:context=".Affirmations">
+
+    <TextView
+        android:id="@+id/affirmationsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:textSize="75sp"
+        android:gravity="center"
+        android:fontFamily="@font/moonbright"
+        android:paddingStart="25sp"
+        android:paddingEnd="25sp"
+       />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
