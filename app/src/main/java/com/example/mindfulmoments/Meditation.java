@@ -64,7 +64,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner audioSelector = findViewById(R.id.selectAudio);
         audioSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern meditative"};
+        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern journey", "morning in the mountains"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> audioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, audioOptions);
@@ -154,6 +154,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
                         @Override
                         public void run() {
                             if (mediaPlayer != null && !isReleased[0]) {
+                                progressBar.setProgress(100);
                                 mediaPlayer.pause();
                                 mediaPlayer.release();
                                 mediaPlayer = null;
@@ -220,7 +221,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         // Handle case where no item is selected (optional)
     }
 
-    //{"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern meditative"}
+    //{"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern meditative", "morning in the mountains"}
     private int convertToAudio(String selectedItem) {
         if(Objects.equals(selectedItem, "Deep meditation")) {
             return R.raw.deep_meditation;
@@ -234,10 +235,11 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             return R.raw.healing_forest;
         }else if (Objects.equals(selectedItem, "garden serenity")) {
             return R.raw.garden_serenity;
-        }else if (Objects.equals(selectedItem,  "eastern meditative")) {
+        }else if (Objects.equals(selectedItem,  "eastern journey")) {
             return R.raw.eastern_meditative;
-        }
-        else {
+        }else if (Objects.equals(selectedItem,  "morning in the mountains")) {
+        return R.raw.morning_in_the_mountains;
+        } else {
             return 0;
         }
     }
@@ -313,8 +315,6 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             }
         }, 1500); // Delay for 1.5 sec
     }
-
-
 
 
 
