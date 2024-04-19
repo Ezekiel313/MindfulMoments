@@ -47,10 +47,21 @@
         android:layout_marginBottom="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
+        android:id="@+id/ProgressBar"
         style="@android:style/Widget.ProgressBar.Horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/playButton"
+        />
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:background="@color/cardview_dark_background"
+        android:src="@drawable/back_button"
+        android:id="@+id/backButton"
+        android:onClick="backButtonPressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

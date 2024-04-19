@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SilentMeditationButtonPressed(View view) {
-        Intent intent = new Intent(MainActivity.this,SilentMeditation.class);
+        Intent intent = new Intent(MainActivity.this,SilentMeditations.class);
         startActivity(intent);
     }
 
