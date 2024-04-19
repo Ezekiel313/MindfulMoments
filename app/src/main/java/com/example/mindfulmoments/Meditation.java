@@ -5,10 +5,13 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +23,8 @@ import android.widget.Spinner;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -45,6 +50,17 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_meditation);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
+        ConstraintLayout main = findViewById(R.id.main);
+
+        int color = ((ColorDrawable) main.getBackground()).getColor();
+        toolbar.setBackgroundColor(color);// Set the title text color after setting support action bar
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -75,6 +91,17 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         playButton = findViewById(R.id.playButton);
 
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Navigate back to the previous screen
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();
