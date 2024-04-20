@@ -1,6 +1,7 @@
 package com.example.mindfulmoments;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -30,7 +31,7 @@ public class Affirmations extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.BLACK);
-        ConstraintLayout main = findViewById(R.id.main)
+        ConstraintLayout main = findViewById(R.id.main);
 
         int color = ((ColorDrawable) main.getBackground()).getColor();
         toolbar.setBackgroundColor(color);// Set the title text color after setting support action bar
