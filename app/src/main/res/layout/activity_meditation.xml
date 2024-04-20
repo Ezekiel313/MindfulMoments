@@ -12,14 +12,13 @@
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:theme="@style/ToolbarBlackText">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Affirmations"
+            app:title="Meditation"
             app:layout_constraintTop_toTopOf="parent"/>
     </com.google.android.material.appbar.AppBarLayout>
     
@@ -36,8 +35,6 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar1"
         android:onClick="PlaybuttonPressed"
         />
 
@@ -50,8 +47,8 @@
         android:prompt="@string/Audio_selection"
         android:entries="@array/Audio"
         android:spinnerMode="dropdown"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/toolbar1"
+    />
 
     <Spinner
         android:layout_width="match_parent"
