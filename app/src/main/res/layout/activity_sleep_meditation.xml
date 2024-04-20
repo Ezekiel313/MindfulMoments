@@ -47,8 +47,8 @@
         android:prompt="@string/Audio_selection"
         android:entries="@array/Audio"
         android:spinnerMode="dropdown"
-        app:layout_constraintTop_toTopOf="parent"
-    />
+        app:layout_constraintTop_toBottomOf="@id/toolbar1"
+        />
 
     <Spinner
         android:layout_width="match_parent"
@@ -68,16 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/playButton"
-        />
-    <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:background="@color/cardview_dark_background"
-        android:src="@drawable/back_button"
-        android:id="@+id/backButton"
-        android:onClick="backButtonPressed"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
