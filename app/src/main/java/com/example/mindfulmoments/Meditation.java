@@ -309,39 +309,47 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
     }
     private boolean hasCompleted = false;
 
-    private void playCompletionSound() {
-        MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
-        completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (!hasCompleted) {
-                    hasCompleted = true;
-                    mp.release(); // Release the MediaPlayer resources when the sound is completed
-                }
-            }
-        });
-        completionMediaPlayer.start(); // Start playing the completion sound
+    private boolean completionSoundPlayed = false;
 
-        // Delay the sound effect by 6.5 seconds
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the completion listener has already been triggered
-                if (!hasCompleted) {
-                    // Create a new MediaPlayer instance for the delayed sound effect
-                    MediaPlayer delayedMediaPlayer = MediaPlayer.create(Meditation.this, R.raw.meditation_complete);
-                    delayedMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            mp.release(); // Release the MediaPlayer resources when the sound is completed
-                        }
-                    });
-                    delayedMediaPlayer.start(); // Play the delayed sound effect
+    private void playCompletionSound() {
+        if (!completionSoundPlayed) {
+            // Create the initial MediaPlayer for the completion sound
+            final MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
+            completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // Release resources when the sound is completed
+                    mp.release();
                 }
-            }
-        }, 1500); // Delay for 1.5 sec
+            });
+
+            // Start playing the completion sound
+
+            completionSoundPlayed = true;
+
+            // Delay the sound effect by 1.5 seconds
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Check if the completion listener has already been triggered
+                    if (!hasCompleted) {
+                        // Create a new MediaPlayer instance for the delayed sound effect
+                        MediaPlayer delayedMediaPlayer = MediaPlayer.create(Meditation.this, R.raw.meditation_complete);
+                        delayedMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                // Release resources when the delayed sound is completed
+                                mp.release();
+                            }
+                        });
+                        // Start playing the delayed sound effect
+                        delayedMediaPlayer.start();
+                    }
+                }
+            }, 1500); // Delay for 1.5 seconds
+        }
     }
+
 
 
 
