@@ -10,6 +10,21 @@
     android:backgroundTintMode="src_over"
     tools:context=".Affirmations">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ToolbarBlackText">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Affirmations"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <TextView
         android:id="@+id/affirmationsTextView"
         android:layout_width="match_parent"
@@ -20,6 +35,7 @@
         android:fontFamily="@font/moonbright"
         android:paddingStart="25sp"
         android:paddingEnd="25sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar1"
        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
