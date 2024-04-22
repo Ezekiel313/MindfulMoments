@@ -313,15 +313,6 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
 
     private void playCompletionSound() {
         if (!completionSoundPlayed) {
-            // Create the initial MediaPlayer for the completion sound
-            final MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
-            completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    // Release resources when the sound is completed
-                    mp.release();
-                }
-            });
 
             // Start playing the completion sound
 
