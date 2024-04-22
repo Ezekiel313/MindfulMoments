@@ -10,6 +10,7 @@
     <color name="gold">#C7A961</color>
     <color name="soil">#9C937A</color>
     <color name="coal">#42473F</color>
+    <color name="background"> #635D5A</color>
 
 
 </resources>

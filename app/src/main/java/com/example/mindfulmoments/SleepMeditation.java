@@ -10,6 +10,7 @@ package com.example.mindfulmoments;
         import android.os.Bundle;
 
         import android.os.Handler;
+        import android.util.Log;
         import android.view.View;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
@@ -65,7 +66,7 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
         Spinner audioSelector = findViewById(R.id.selectAudio);
         audioSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] audioOptions = new String[] {"returning dreams", "Thunderstorm", "healing forest", "eastern meditative", "Deep meditation", "sleep serenity", "spring breeze of meditation", "Deep sleep", "rain in paradise", "lullaby of the rain"};
+        String[] audioOptions = new String[] {"Returning Dreams", "Thunderstorm", "Healing Forest", "Eastern Journey", "Deep Meditation", "Sleep Serenity", "Spring Breeze of Meditation", "Deep Sleep", "Rain in Paradise", "Lullaby of the Rain"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> audioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, audioOptions);
@@ -177,6 +178,24 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
                     }
                 });
 
+                // Handle MediaPlayer errors
+                mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        // Log the error
+                        Log.e("MediaPlayer", "Error occurred: " + what + ", " + extra);
+                        // Handle the error
+                        // For example, you might want to display an error message to the user
+                        // and stop the meditation session
+                        isMeditationPlaying = false;
+                        if (mediaPlayer != null) {
+                            mediaPlayer.release();
+                            mediaPlayer = null;
+                        }
+                        return true; // Indicates that the error was handled
+                    }
+                });
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -235,24 +254,26 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
 
     //{"returning dreams", "Thunderstorm", "healing forest", "eastern meditative", "Deep meditation", "sleep serenity", "spring breeze of meditation", "Deep sleep"
     private int convertToAudio(String selectedItem) {
-        if(Objects.equals(selectedItem, "Deep meditation")) {
+        if(Objects.equals(selectedItem, "Deep Meditation")) {
             return R.raw.deep_meditation;
         } else if (Objects.equals(selectedItem, "Thunderstorm")) {
             return R.raw.rain_and_thunder;
-        } else if (Objects.equals(selectedItem, "Spring breeze of meditation")) {
+        } else if (Objects.equals(selectedItem, "Spring Breeze of Meditation")) {
             return R.raw.spring_breeze_of_meditation;
-        } else if (Objects.equals(selectedItem, "healing forest")) {
+        } else if (Objects.equals(selectedItem, "Healing Forest")) {
             return R.raw.healing_forest;
-        }else if (Objects.equals(selectedItem,  "returning dreams")) {
+        }else if (Objects.equals(selectedItem,  "Returning Dreams")) {
             return R.raw.returning_dreams;
-        }else if (Objects.equals(selectedItem,  "Deep sleep")) {
+        }else if (Objects.equals(selectedItem,  "Deep Sleep")) {
             return R.raw.deep_sleep;
-        }else if (Objects.equals(selectedItem,  "sleep serenity")) {
+        }else if (Objects.equals(selectedItem,  "Sleep Serenity")) {
             return R.raw.sleep_serenity;
-        }else if (Objects.equals(selectedItem,  "rain in paradise")) {
+        }else if (Objects.equals(selectedItem,  "Rain in Paradise")) {
             return R.raw.rain_in_paradise;
-        }else if (Objects.equals(selectedItem,  "lullaby of the rain")) {
+        }else if (Objects.equals(selectedItem,  "Lullaby of the Rain")) {
             return R.raw.lullaby_of_the_rain;
+        }else if (Objects.equals(selectedItem,  "Eastern Journey")) {
+            return R.raw.eastern_meditative;
         }
         else {
             return 0;
@@ -322,7 +343,7 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
                         completionMediaPlayer.release(); // Release the MediaPlayer resources
                     }
                 }
-            }, 6500); // Delay for 6.5 seconds
+            }, 1500); // Delay for 6.5 seconds
         }
     }
 
