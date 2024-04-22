@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/coal"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,9 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Hello"
-        android:layout_marginTop="50dp"
+        android:textSize="50sp"
+        android:fontFamily="@font/moonbright"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:paddingRight="30sp"
+        android:paddingLeft="30sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,6 +32,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/black"
+        android:textSize="20sp"
         android:backgroundTint="@color/spruceGreen"
         android:text="@string/Meditation_Button"
         android:onClick="MeditationButtonPressed"
@@ -44,6 +48,8 @@
         android:layout_marginEnd="20sp"
         android:backgroundTint="@color/gray"
         android:textColor="@color/black"
+        android:textSize="20sp"
+
         android:text="@string/Affirmation_Button"
 
         android:onClick="AffirmationButtonPressed"
@@ -58,6 +64,7 @@
         android:layout_marginTop="20sp"
         android:layout_marginEnd="10sp"
         android:textColor="@color/black"
+        android:textSize="20sp"
         android:text="@string/Silent_Mediation_button"
         android:backgroundTint="@color/soil"
         android:onClick="SilentMeditationButtonPressed"
@@ -73,6 +80,7 @@
         android:layout_marginTop="20sp"
         android:layout_marginEnd="20sp"
         android:textColor="@color/black"
+        android:textSize="20sp"
         android:text="@string/Sleep_meditation_Button"
         android:backgroundTint="@color/earthyGreen"
         android:onClick="SleepMeditationButtonPressed"

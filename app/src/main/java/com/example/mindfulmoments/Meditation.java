@@ -64,7 +64,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         Spinner audioSelector = findViewById(R.id.selectAudio);
         audioSelector.setOnItemSelectedListener(this);
         //create a list of items for the spinner.
-        String[] audioOptions = new String[] {"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern journey", "morning in the mountains"};
+        String[] audioOptions = new String[] {"Deep Meditation", "Thunderstorm", "Relaxing Birds and Piano", "Spring Breeze of Meditation", "Healing Forest", "Garden Serenity", "Eastern Journey", "Morning in the Mountains"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
 //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> audioAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, audioOptions);
@@ -221,23 +221,23 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         // Handle case where no item is selected (optional)
     }
 
-    //{"Deep meditation", "Thunderstorm", "Relaxing birds and piano", "Spring breeze of meditation", "healing forest", "garden serenity", "eastern meditative", "morning in the mountains"}
+    //{"Deep Meditation", "Thunderstorm", "Relaxing Birds and Piano", "Spring Breeze of Meditation", "Healing Forest", "Garden Serenity", "Eastern Journey", "Morning in the Mountains"};
     private int convertToAudio(String selectedItem) {
-        if(Objects.equals(selectedItem, "Deep meditation")) {
+        if(Objects.equals(selectedItem, "Deep Meditation")) {
             return R.raw.deep_meditation;
         } else if (Objects.equals(selectedItem, "Thunderstorm")) {
             return R.raw.rain_and_thunder;
-        } else if (Objects.equals(selectedItem, "Relaxing birds and piano")) {
+        } else if (Objects.equals(selectedItem, "Relaxing Birds and Piano")) {
             return R.raw.relaxing_birds_and_piano_music;
-        } else if (Objects.equals(selectedItem, "Spring breeze of meditation")) {
+        } else if (Objects.equals(selectedItem, "Spring Breeze of Meditation")) {
             return R.raw.spring_breeze_of_meditation;
-        } else if (Objects.equals(selectedItem, "healing forest")) {
+        } else if (Objects.equals(selectedItem, "Healing Forest")) {
             return R.raw.healing_forest;
-        }else if (Objects.equals(selectedItem, "garden serenity")) {
+        }else if (Objects.equals(selectedItem, "Garden Serenity")) {
             return R.raw.garden_serenity;
-        }else if (Objects.equals(selectedItem,  "eastern journey")) {
+        }else if (Objects.equals(selectedItem,  "Eastern Journey")) {
             return R.raw.eastern_meditative;
-        }else if (Objects.equals(selectedItem,  "morning in the mountains")) {
+        }else if (Objects.equals(selectedItem,  "Morning in the Mountains")) {
         return R.raw.morning_in_the_mountains;
         } else {
             return 0;
