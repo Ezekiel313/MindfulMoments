@@ -2,6 +2,9 @@ package com.example.mindfulmoments;
 
 
         import java.util.Objects;
+        import android.graphics.Color;
+        import android.graphics.drawable.ColorDrawable;
+        import android.view.MenuItem;
         import java.util.Timer;
         import java.util.TimerTask;
 
@@ -22,6 +25,8 @@ package com.example.mindfulmoments;
         import androidx.activity.EdgeToEdge;
         import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.widget.Toolbar;
+        import androidx.constraintlayout.widget.ConstraintLayout;
         import androidx.core.graphics.Insets;
         import androidx.core.view.ViewCompat;
         import androidx.core.view.WindowInsetsCompat;
@@ -47,6 +52,19 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sleep_meditation);
+
+        // Set up the toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
+        ConstraintLayout main = findViewById(R.id.main);
+
+        int color = ((ColorDrawable) main.getBackground()).getColor();
+        toolbar.setBackgroundColor(color);// Set the title text color after setting support action bar
+
+        // Enable the back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -77,6 +95,18 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
         playButton = findViewById(R.id.playButton);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle the back button click
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+        
     @Override
     protected void onDestroy() {
         super.onDestroy();

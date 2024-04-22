@@ -1,7 +1,17 @@
 package com.example.mindfulmoments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import android.widget.TextView;
 import android.os.Handler;
 
@@ -18,12 +28,32 @@ public class Affirmations extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affirmations);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
+        ConstraintLayout main = findViewById(R.id.main);
+
+        int color = ((ColorDrawable) main.getBackground()).getColor();
+        toolbar.setBackgroundColor(color);// Set the title text color after setting support action bar
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         affirmationsText = findViewById(R.id.affirmationsTextView);
         handler = new Handler();
 
         affirmationStrings = getResources().getStringArray(R.array.affirmationStrings);
 
         updateTextViewWithArray();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Navigate back to the previous screen
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /* This method allows for the string array to be used to update text view

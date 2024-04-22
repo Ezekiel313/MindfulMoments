@@ -5,7 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-
+    <style name="ToolbarBlackText" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@android:color/black</item> <!-- Color of back button and other control items -->
+    </style>
+    
     <!-- res/values/styles.xml -->
     <style name="GrayButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/gray_button_background</item>

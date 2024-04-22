@@ -8,6 +8,21 @@
     android:background="@color/earthyGreen"
     tools:context=".SilentMeditations">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ToolbarBlackText">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Silent Meditation"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +49,7 @@
         android:prompt="@string/Audio_selection"
         android:entries="@array/Audio"
         android:spinnerMode="dropdown"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar1"
         />
 
 
@@ -50,17 +65,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/playButton"
         />
-
-    <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:background="@color/earthyGreen"
-        android:src="@drawable/back_button"
-        android:id="@+id/backButton"
-        android:onClick="backButtonPressed"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
