@@ -7,6 +7,7 @@ package com.example.mindfulmoments;
         import android.view.MenuItem;
         import java.util.Timer;
         import java.util.TimerTask;
+        import java.util.concurrent.atomic.AtomicBoolean;
 
         import android.content.Intent;
         import android.media.MediaPlayer;
@@ -147,90 +148,64 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
         progressBar.setProgress(0);
 
         isMeditationPlaying = true;
+        AtomicBoolean isReleased = new AtomicBoolean(false);
 
         // Release any existing MediaPlayer instance
         if (mediaPlayer != null) {
             mediaPlayer.release();
-            mediaPlayer = null;
         }
 
         if (audio != 0) {
-            try {
-                mediaPlayer = MediaPlayer.create(this, audio);
-                mediaPlayer.start(); // Start playing the audio
+            mediaPlayer = MediaPlayer.create(this, audio);
+            if (mediaPlayer == null) {
+                // Handle invalid audio resource
+                return;
+            }
 
-                final int totalTime = time;
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start(); // Start playing the audio
 
-                // Initialize a Handler to update the UI with elapsed time
-                final Handler handler = new Handler();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mediaPlayer != null && isMeditationPlaying) {
-                            int elapsedTime = mediaPlayer.getCurrentPosition(); // Get current playback position
-                            int progress = (int) (elapsedTime * 100.0 / totalTime); // Calculate progress percentage
-                            progressBar.setProgress(progress);
+            // Initialize a Handler to update the UI with elapsed time
+            Handler handler = new Handler();
+            Runnable updateRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (isMeditationPlaying) {
+                        long elapsedTime = mediaPlayer.getCurrentPosition(); // Get current playback position
+                        // Update UI with elapsed time if needed
+                        updateProgressBar(elapsedTime, time);
 
-                            // Schedule this Runnable to run again after a short delay
-                            handler.postDelayed(this, 1000); // Update every second
-                        }
+                        // Schedule this Runnable to run again after a short delay
+                        handler.postDelayed(this, 1000); // Update every second
                     }
-                });
+                }
+            };
+            // Start the initial update immediately
+            handler.post(updateRunnable);
 
-                // Schedule a Timer task to stop the audio after the specified duration
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
+            // Schedule a Timer task to stop the audio after the specified duration
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null && isReleased.compareAndSet(false, true)) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (mediaPlayer != null && isMeditationPlaying) {
-                                    mediaPlayer.pause();
-                                    mediaPlayer.release();
-                                    mediaPlayer = null;
-                                    isMeditationPlaying = false;
-                                    progressBar.setProgress(100); // Ensure progress reaches 100%
-                                    updateButtonText(); // Update the button text after stopping the audio
-                                    playCompletionSound();
-                                }
+                                progressBar.setProgress(100);
+                                mediaPlayer.pause();
+                                mediaPlayer.release();
+                                mediaPlayer = null;
+                                isMeditationPlaying = false;
+                                updateButtonText(); // Update the button text after stopping the audio
+                                playCompletionSound();
                             }
                         });
                     }
-                }, time);
-
-                // Update progress bar continuously based on playback position
-                mediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
-                    @Override
-                    public void onSeekComplete(MediaPlayer mediaPlayer) {
-                        int elapsedTime = mediaPlayer.getCurrentPosition(); // Get current playback position
-                        int progress = (int) (elapsedTime * 100.0 / totalTime); // Calculate progress percentage using time
-                        progressBar.setProgress(progress);
-                    }
-                });
-
-                // Handle MediaPlayer errors
-                mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                    @Override
-                    public boolean onError(MediaPlayer mp, int what, int extra) {
-                        // Log the error
-                        Log.e("MediaPlayer", "Error occurred: " + what + ", " + extra);
-                        // Handle the error
-                        // For example, you might want to display an error message to the user
-                        // and stop the meditation session
-                        isMeditationPlaying = false;
-                        if (mediaPlayer != null) {
-                            mediaPlayer.release();
-                            mediaPlayer = null;
-                        }
-                        return true; // Indicates that the error was handled
-                    }
-                });
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                }
+            }, time);
         }
     }
+
 
 
 
@@ -350,30 +325,40 @@ public class SleepMeditation extends AppCompatActivity implements AdapterView.On
     }
     private boolean hasCompleted = false;
 
-    private void playCompletionSound() {
-        final MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
-        completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (!hasCompleted) {
-                    hasCompleted = true;
-                    mp.release(); // Release the MediaPlayer resources when the sound is completed
-                }
-            }
-        });
-        completionMediaPlayer.start(); // Start playing the completion sound
+    private boolean completionSoundPlayed = false;
 
-        // Delay the sound effect by 6.5 seconds if not completed
-        if (!hasCompleted) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
+    private void playCompletionSound() {
+        if (!completionSoundPlayed) {
+            // Create the MediaPlayer for the completion sound
+            final MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
+            completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // Release resources when the sound is completed
+                    mp.release();
+                }
+            });
+
+            // Start playing the completion sound
+            completionMediaPlayer.start();
+
+            completionSoundPlayed = true;
+
+            // Delay the sound effect by 1.5 seconds
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    // Check if the completion listener has already been triggered
                     if (!hasCompleted) {
-                        completionMediaPlayer.release(); // Release the MediaPlayer resources
+                        // Release resources if not completed
+                        completionMediaPlayer.release();
+                        // Reset the completionSoundPlayed flag only if the timer has run out
+                        if (!isMeditationPlaying) {
+                            completionSoundPlayed = false;
+                        }
                     }
                 }
-            }, 1500); // Delay for 6.5 seconds
+            }, 1500); // Delay for 1.5 seconds
         }
     }
 

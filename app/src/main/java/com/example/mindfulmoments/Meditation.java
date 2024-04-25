@@ -4,6 +4,7 @@ package com.example.mindfulmoments;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -137,12 +138,13 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
         }
     }
 
+
     private void startMeditation(int audio, int time) {
-        //reset progress bar
+        // Reset progress bar
         progressBar.setProgress(0);
 
         isMeditationPlaying = true;
-        final boolean[] isReleased = {false};
+        AtomicBoolean isReleased = new AtomicBoolean(false);
 
         // Release any existing MediaPlayer instance
         if (mediaPlayer != null) {
@@ -151,6 +153,11 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
 
         if (audio != 0) {
             mediaPlayer = MediaPlayer.create(this, audio);
+            if (mediaPlayer == null) {
+                // Handle invalid audio resource
+                return;
+            }
+
             mediaPlayer.setLooping(true);
             mediaPlayer.start(); // Start playing the audio
 
@@ -172,33 +179,29 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             // Start the initial update immediately
             handler.post(updateRunnable);
 
-
             // Schedule a Timer task to stop the audio after the specified duration
-            timer.schedule(new TimerTask() {
+            handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mediaPlayer != null && !isReleased[0]) {
+                    if (mediaPlayer != null && isReleased.compareAndSet(false, true)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
                                 progressBar.setProgress(100);
                                 mediaPlayer.pause();
                                 mediaPlayer.release();
                                 mediaPlayer = null;
-                                isReleased[0] = true;
                                 isMeditationPlaying = false;
+                                updateButtonText(); // Update the button text after stopping the audio
+                                playCompletionSound();
                             }
-                            updateButtonText(); // Update the button text after stopping the audio
-                            playCompletionSound();
-                        }
-                    });
+                        });
+                    }
                 }
             }, time);
-
-
-
         }
     }
+
 
 
     public void updateButtonText() {
@@ -313,7 +316,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
 
     private void playCompletionSound() {
         if (!completionSoundPlayed) {
-            // Create the initial MediaPlayer for the completion sound
+            // Create the MediaPlayer for the completion sound
             final MediaPlayer completionMediaPlayer = MediaPlayer.create(this, R.raw.meditation_complete);
             completionMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -324,6 +327,7 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
             });
 
             // Start playing the completion sound
+            completionMediaPlayer.start();
 
             completionSoundPlayed = true;
 
@@ -333,22 +337,18 @@ public class Meditation extends AppCompatActivity implements AdapterView.OnItemS
                 public void run() {
                     // Check if the completion listener has already been triggered
                     if (!hasCompleted) {
-                        // Create a new MediaPlayer instance for the delayed sound effect
-                        MediaPlayer delayedMediaPlayer = MediaPlayer.create(Meditation.this, R.raw.meditation_complete);
-                        delayedMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                // Release resources when the delayed sound is completed
-                                mp.release();
-                            }
-                        });
-                        // Start playing the delayed sound effect
-                        delayedMediaPlayer.start();
+                        // Release resources if not completed
+                        completionMediaPlayer.release();
+                        // Reset the completionSoundPlayed flag only if the timer has run out
+                        if (!isMeditationPlaying) {
+                            completionSoundPlayed = false;
+                        }
                     }
                 }
             }, 1500); // Delay for 1.5 seconds
         }
     }
+
 
 
 
